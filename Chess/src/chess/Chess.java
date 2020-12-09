@@ -28,7 +28,8 @@ public class Chess extends JFrame implements Runnable {
                 if (e.BUTTON1 == e.getButton() ) {
                     int x = e.getX() - Window.getX(0);
                     int y = e.getY() - Window.getY(0);
-                    Board.AddPiecePixel(x,y);
+                    Board.SelectPiecePixel(x,y);
+                    //Add a selectPiecePixel
                 }
                 if (e.BUTTON2 == e.getButton()) {
                     int x = e.getX() - Window.getX(0);
@@ -133,7 +134,9 @@ public class Chess extends JFrame implements Runnable {
     
 /////////////////////////////////////////////////////////////////////////
     public void reset() {
+        Player.Reset();
         Board.Reset();
+        
     }
 /////////////////////////////////////////////////////////////////////////
     public void animate() {
