@@ -93,6 +93,7 @@ public class Board {
             selectedPiece = null;
             selectedPieceRow = 0;
             selectedPieceCol = 0;
+            System.out.println("Piece Deselected.");
             return;
         }
         else if((board[row][column] != null && selectedPiece == null) || ((board[row][column] != null && selectedPiece != null) && board[row][column].getPlayer() == selectedPiece.getPlayer())){
@@ -103,15 +104,15 @@ public class Board {
             selectedPieceCol = column;
             return;
         }
-        else if((board[row][column] == null && selectedPiece != null) || (board[row][column] != null && board[row][column].getPlayer() != selectedPiece.getPlayer())){
-            // Movement test
-            board[row][column] = selectedPiece;
-            board[selectedPieceRow][selectedPieceCol] = null;
-            selectedPiece = null;
-            selectedPieceRow = 0;
-            selectedPieceCol = 0;
-            Player.SwitchTurn();
-        }
+//        else if((board[row][column] == null && selectedPiece != null) || (board[row][column] != null && board[row][column].getPlayer() != selectedPiece.getPlayer())){
+//            // Movement test
+//            board[row][column] = selectedPiece;
+//            board[selectedPieceRow][selectedPieceCol] = null;
+//            selectedPiece = null;
+//            selectedPieceRow = 0;
+//            selectedPieceCol = 0;
+//            Player.SwitchTurn();
+//        }
         
         
         
@@ -127,7 +128,18 @@ public class Board {
         
         
         if(board[row][col] == null){
-            board[row][col] = new Piece(Player.GetCurrentPlayer(), type);
+            if(type == Piece.Type.PAWN)
+                board[row][col] = new Pawn(Player.GetCurrentPlayer());
+            else if(type == Piece.Type.BISHOP)
+                board[row][col] = new Bishop(Player.GetCurrentPlayer());
+            else if(type == Piece.Type.KNIGHT)
+                board[row][col] = new Knight(Player.GetCurrentPlayer());
+            else if(type == Piece.Type.ROOK)
+                board[row][col] = new Rook(Player.GetCurrentPlayer());
+            else if(type == Piece.Type.KING)
+                board[row][col] = new King(Player.GetCurrentPlayer());
+            else if(type == Piece.Type.QUEEN)
+                board[row][col] = new Queen(Player.GetCurrentPlayer());
         
         }
         
@@ -157,10 +169,37 @@ public class Board {
         {
             for (int zcol=0;zcol<NUM_COLUMNS;zcol++)        
             {
-                if (board[zrow][zcol] != null)
-                    board[zrow][zcol].draw(g, zrow, zcol,xdelta, ydelta);
-                if (selectedPiece != null){
-                    selectedPiece.draw(g, selectedPieceRow, selectedPieceCol,xdelta, ydelta);
+                if (board[zrow][zcol] != null){
+                    if(board[zrow][zcol].getType() == Piece.Type.PAWN)
+                        ((Pawn)board[zrow][zcol]).draw(g, zrow, zcol,xdelta, ydelta);
+                    else if(board[zrow][zcol].getType() == Piece.Type.BISHOP)
+                        ((Bishop)board[zrow][zcol]).draw(g, zrow, zcol,xdelta, ydelta);
+                    else if(board[zrow][zcol].getType() == Piece.Type.ROOK)
+                        ((Rook)board[zrow][zcol]).draw(g, zrow, zcol,xdelta, ydelta);
+                    else if(board[zrow][zcol].getType() == Piece.Type.KNIGHT)
+                        ((Knight)board[zrow][zcol]).draw(g, zrow, zcol,xdelta, ydelta);
+                    else if(board[zrow][zcol].getType() == Piece.Type.QUEEN)
+                        ((Queen)board[zrow][zcol]).draw(g, zrow, zcol,xdelta, ydelta);
+                    else if(board[zrow][zcol].getType() == Piece.Type.KING)
+                        ((King)board[zrow][zcol]).draw(g, zrow, zcol,xdelta, ydelta);
+                    
+                }
+                    
+                if (selectedPiece != null && board[zrow][zcol] == selectedPiece){
+                    g.setColor(Color.green);
+                    g.fillRect(Window.getX(zcol*xdelta), Window.getY(zrow*ydelta), xdelta, ydelta);
+                    if(selectedPiece.getType() == Piece.Type.PAWN)
+                        ((Pawn)selectedPiece).draw(g, zrow, zcol,xdelta, ydelta);
+                    else if(selectedPiece.getType() == Piece.Type.BISHOP)
+                        ((Bishop)selectedPiece).draw(g, zrow, zcol,xdelta, ydelta);
+                    else if(selectedPiece.getType() == Piece.Type.ROOK)
+                        ((Rook)selectedPiece).draw(g, zrow, zcol,xdelta, ydelta);
+                    else if(selectedPiece.getType() == Piece.Type.KNIGHT)
+                        ((Knight)selectedPiece).draw(g, zrow, zcol,xdelta, ydelta);
+                    else if(selectedPiece.getType() == Piece.Type.QUEEN)
+                        ((Queen)selectedPiece).draw(g, zrow, zcol,xdelta, ydelta);
+                    else if(selectedPiece.getType() == Piece.Type.KING)
+                        ((King)selectedPiece).draw(g, zrow, zcol,xdelta, ydelta);
                 }
                     
             }
