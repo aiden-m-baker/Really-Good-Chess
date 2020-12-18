@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package chess;
 
 import java.awt.*;
@@ -14,6 +10,16 @@ public class Board {
     private static Piece selectedPiece;
     private static int selectedPieceRow;
     private static int selectedPieceCol;
+    
+    public static int getNumRows(){
+        return(NUM_ROWS);
+    }
+    public static int getNumColumns(){
+        return(NUM_COLUMNS);
+    }
+    public static Piece[][] getBoard(){
+        return(board);
+    }
     
     public static void Reset() {
 //Clear the board.
@@ -59,6 +65,9 @@ public class Board {
                         Board.AddPiecePixel(zrow, zcol, Piece.Type.KING);
                 }
             }
+        
+        Board.AddPiecePixel(4, 4, Piece.Type.BISHOP);
+        
         selectedPiece = null;
         selectedPieceRow = 0;
         selectedPieceCol = 0;
@@ -102,18 +111,97 @@ public class Board {
             selectedPiece = board[row][column];
             selectedPieceRow = row;
             selectedPieceCol = column;
-            return;
         }
-//        else if((board[row][column] == null && selectedPiece != null) || (board[row][column] != null && board[row][column].getPlayer() != selectedPiece.getPlayer())){
-//            // Movement test
-//            board[row][column] = selectedPiece;
-//            board[selectedPieceRow][selectedPieceCol] = null;
-//            selectedPiece = null;
-//            selectedPieceRow = 0;
-//            selectedPieceCol = 0;
-//            Player.SwitchTurn();
-//        }
         
+        else if((board[row][column] == null && selectedPiece != null) || (board[row][column] != null && board[row][column].getPlayer() != selectedPiece.getPlayer())){
+            // Movement test
+            
+            if(Piece.Move(selectedPiece, row, column) == true){
+                board[row][column] = selectedPiece;
+                board[selectedPieceRow][selectedPieceCol] = null;
+                selectedPiece = null;
+                selectedPieceRow = 0;
+                selectedPieceCol = 0;
+                Player.SwitchTurn();
+            }
+            
+            
+            
+        }
+        
+        
+        
+        
+        /*
+        if(selectedPiece != null && selectedPiece.getType() == Piece.Type.BISHOP){
+            int i = 1;
+            boolean legalMovement = true;
+            while (legalMovement)
+            {
+                if(selectedPieceRow+i < NUM_ROWS && selectedPieceCol+i < NUM_COLUMNS){
+                    if(board[selectedPieceRow+i][selectedPieceCol+i] == null){
+                        //board[selectedPieceRow+i][selectedPieceCol+i].validMovementTrue();
+                    } else if (board[selectedPieceRow+i][selectedPieceCol+i].getPlayer() != selectedPiece.getPlayer()) {
+                        board[selectedPieceRow+i][selectedPieceCol+i].validMovementTrue();
+                        legalMovement = false;
+                    } else {
+                        legalMovement = false;
+                    }
+                }
+                i++;
+            }
+            i = 1;
+            legalMovement = true;
+            while (legalMovement)
+            {
+                if(selectedPieceRow+i < NUM_ROWS && selectedPieceCol-i > 0){
+                    if(board[selectedPieceRow+i][selectedPieceCol-i] == null){
+                        //board[selectedPieceRow+i][selectedPieceCol-i].validMovementTrue();
+                    } else if (board[selectedPieceRow+i][selectedPieceCol-i].getPlayer() != selectedPiece.getPlayer()) {
+                        board[selectedPieceRow+i][selectedPieceCol-i].validMovementTrue();
+                        legalMovement = false;
+                    } else {
+                        legalMovement = false;
+                    }
+                }
+                i++;
+            }
+            i = 1;
+            legalMovement = true;
+            while (legalMovement)
+            {
+                if(selectedPieceRow-i > 0 && selectedPieceCol+i < NUM_COLUMNS){
+                    if(board[selectedPieceRow-i][selectedPieceCol+i] == null){
+                        //board[selectedPieceRow-i][selectedPieceCol+i].validMovementTrue();
+                    } else if (board[selectedPieceRow-i][selectedPieceCol+i].getPlayer() != selectedPiece.getPlayer()) {
+                        board[selectedPieceRow-i][selectedPieceCol+i].validMovementTrue();
+                        legalMovement = false;
+                    } else {
+                        legalMovement = false;
+                    }
+                }
+                i++;
+            }
+            i = 1;
+            legalMovement = true;
+            while (legalMovement)
+            {
+                if(selectedPieceRow-i > 0 && selectedPieceCol-i > 0){
+                    if(board[selectedPieceRow-i][selectedPieceCol-i] == null){
+                        //board[selectedPieceRow-i][selectedPieceCol-i].validMovementTrue();
+                    } else if (board[selectedPieceRow-i][selectedPieceCol-i].getPlayer() != selectedPiece.getPlayer()) {
+                        board[selectedPieceRow-i][selectedPieceCol-i].validMovementTrue();
+                        legalMovement = false;
+                    } else {
+                        legalMovement = false;
+                    }
+                }
+                i++;
+            }
+            i = 1;
+            legalMovement = true;
+        }
+        */
         
         
     }
@@ -129,17 +217,17 @@ public class Board {
         
         if(board[row][col] == null){
             if(type == Piece.Type.PAWN)
-                board[row][col] = new Pawn(Player.GetCurrentPlayer());
+                board[row][col] = new Pawn(Player.GetCurrentPlayer(), row, col);
             else if(type == Piece.Type.BISHOP)
-                board[row][col] = new Bishop(Player.GetCurrentPlayer());
+                board[row][col] = new Bishop(Player.GetCurrentPlayer(), row, col);
             else if(type == Piece.Type.KNIGHT)
-                board[row][col] = new Knight(Player.GetCurrentPlayer());
+                board[row][col] = new Knight(Player.GetCurrentPlayer(), row, col);
             else if(type == Piece.Type.ROOK)
-                board[row][col] = new Rook(Player.GetCurrentPlayer());
+                board[row][col] = new Rook(Player.GetCurrentPlayer(), row, col);
             else if(type == Piece.Type.KING)
-                board[row][col] = new King(Player.GetCurrentPlayer());
+                board[row][col] = new King(Player.GetCurrentPlayer(), row, col);
             else if(type == Piece.Type.QUEEN)
-                board[row][col] = new Queen(Player.GetCurrentPlayer());
+                board[row][col] = new Queen(Player.GetCurrentPlayer(), row, col);
         
         }
         
@@ -182,7 +270,12 @@ public class Board {
                         ((Queen)board[zrow][zcol]).draw(g, zrow, zcol,xdelta, ydelta);
                     else if(board[zrow][zcol].getType() == Piece.Type.KING)
                         ((King)board[zrow][zcol]).draw(g, zrow, zcol,xdelta, ydelta);
-                    
+                    /*
+                    if(board[zrow][zcol].getValidMovement()){
+                        g.setColor(Color.green);
+                        g.fillRect(Window.getX(zcol*xdelta), Window.getY(zrow*ydelta), xdelta, ydelta);
+                    }
+                    */
                 }
                     
                 if (selectedPiece != null && board[zrow][zcol] == selectedPiece){
@@ -201,6 +294,7 @@ public class Board {
                     else if(selectedPiece.getType() == Piece.Type.KING)
                         ((King)selectedPiece).draw(g, zrow, zcol,xdelta, ydelta);
                 }
+                
                     
             }
         }        

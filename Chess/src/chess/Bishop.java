@@ -16,8 +16,8 @@ public class Bishop extends Piece {
     
     private Image image;
     
-    Bishop(Player _player){
-        super(_player, Piece.Type.BISHOP);
+    Bishop(Player _player, int _row, int _column){
+        super(_player, Piece.Type.BISHOP, _row, _column);
         player = _player;
         if(player == Player.getPlayer1()){
             image = Toolkit.getDefaultToolkit().getImage("./whitebishop.png");
@@ -28,6 +28,7 @@ public class Bishop extends Piece {
     
     
     public void draw(Graphics2D g, int row, int column, int xdelta, int ydelta){
+        
         g.setColor(Color.black);
         
         Draw.drawImage(image, Window.getX((xdelta*column)+xdelta/2), Window.getY((ydelta*row)+ydelta/2), 0, 1, 1);
@@ -39,6 +40,104 @@ public class Bishop extends Piece {
 //            g.drawPolygon(x, y, 7);
 //        else
 //            g.fillPolygon(x, y, 7);
+        
+        
+    }
+    public boolean move(int sRow, int sColumn){
+        int numRows = Board.getNumRows();
+        int numColumns = Board.getNumColumns();
+        Piece board[][] = Board.getBoard();
+        if((sRow < numRows && sRow > 0) && (sColumn < numColumns && sColumn > 0)){
+            if(sRow > row && sColumn > column){
+                int i = 1;
+                while(row+i <= sRow && column+i <= sColumn){
+                    if(board[row+i][column+i] != null && board[row+i][column+i].getPlayer() == board[row][column].getPlayer()){
+                        return(false);
+                    }
+                    if(board[sRow][sRow] == null){
+                        if(row+i == sRow && column+i == sColumn){
+                            return(true);
+                        }
+                    }
+                    else if(board[sRow][sRow].getPlayer() != board[row][column].getPlayer()){
+                        if(row+i == sRow && column+i == sColumn){
+                            return(true);
+                        }
+                    }
+                    else if(board[sRow][sRow].getPlayer() == board[row][column].getPlayer()){
+                        return(false);
+                    }
+                    i++;
+                }
+            } else if(sRow < row && sColumn > column){
+                int i = 1;
+                while(row-i >= sRow && column+i <= sColumn){
+                    if(board[row-i][column+i] != null && board[row-i][column+i].getPlayer() == board[row][column].getPlayer()){
+                        return(false);
+                    }
+                    if(board[sRow][sRow] == null){
+                        if(row-i == sRow && column+i == sColumn){
+                            return(true);
+                        }
+                    }
+                    else if(board[sRow][sRow].getPlayer() != board[row][column].getPlayer()){
+                        if(row-i == sRow && column+i == sColumn){
+                            return(true);
+                        }
+                    }
+                    else if(board[sRow][sRow].getPlayer() == board[row][column].getPlayer()){
+                        return(false);
+                    }
+                    i++;
+                }
+            } else if(sRow > row && sColumn < column){
+                int i = 1;
+                while(row+i <= sRow && column-i >= sColumn){
+                    if(board[row+i][column-i] != null && board[row+i][column-i].getPlayer() == board[row][column].getPlayer()){
+                        return(false);
+                    }
+                    if(board[sRow][sRow] == null){
+                        if(row+i == sRow && column-i == sColumn){
+                            return(true);
+                        }
+                    }
+                    else if(board[sRow][sRow].getPlayer() != board[row][column].getPlayer()){
+                        if(row+i == sRow && column-i == sColumn){
+                            return(true);
+                        }
+                    }
+                    else if(board[sRow][sRow].getPlayer() == board[row][column].getPlayer()){
+                        return(false);
+                    }
+                    i++;
+                }
+            } else if(sRow < row && sColumn < column){
+                int i = 1;
+                while(row-i >= sRow && column-i >= sColumn){
+                    if(board[row-i][column-i] != null && board[row-i][column-i].getPlayer() == board[row][column].getPlayer()){
+                        return(false);
+                    }
+                    if(board[sRow][sRow] == null){
+                        if(row-i == sRow && column-i == sColumn){
+                            return(true);
+                        }
+                    }
+                    else if(board[sRow][sRow].getPlayer() != board[row][column].getPlayer()){
+                        if(row-i == sRow && column-i == sColumn){
+                            return(true);
+                        }
+                    }
+                    else if(board[sRow][sRow].getPlayer() == board[row][column].getPlayer()){
+                        return(false);
+                    }
+                    
+                    i++;
+                }
+            }
+            
+        }
+        
+        return(false);
     }
     
 }

@@ -12,11 +12,20 @@ public class Piece {
     public static enum Type {PAWN,BISHOP,KNIGHT,ROOK,QUEEN,KING}; 
     //Pawn double move, promote, En Passant, and Castle
     private Player player;
+    //private boolean validMovement;
+    int row;
+    int column;
     
-    Piece(Player _player, Type _type)
+    Piece(Player _player, Type _type, int _row, int _column)
     {
         player = _player;
         type = _type;
+        row = _row;
+        column = _column;
+        //validMovement = false;
+    }
+    Piece()
+    {
         
     }
     
@@ -29,9 +38,51 @@ public class Piece {
         return (type);
     }
     
-    public void drawR(Graphics2D g,int row,int column,int xdelta,int ydelta) {
-        
+    public int getRow(){
+        return(row);
     }
+    public int getColumn(){
+        return(column);
+    }
+    
+    public static boolean Move(Piece selectedPiece, int sRow, int sCol){
+        Piece board[][] = Board.getBoard();
+        if((board[sRow][sCol] == null) || (board[sRow][sCol].player != selectedPiece.player)){
+            if(selectedPiece.type == Type.PAWN){
+                //((Bishop)selectedPiece).move(sRow, sCol);
+            } 
+            if(selectedPiece.type == Type.BISHOP){
+                if(((Bishop)selectedPiece).move(sRow, sCol)){
+                    return(true);
+                }
+            } 
+            if(selectedPiece.type == Type.ROOK){
+                //((Bishop)selectedPiece).move(sRow, sCol);
+            } 
+            if(selectedPiece.type == Type.KNIGHT){
+                //((Bishop)selectedPiece).move(sRow, sCol);
+            } 
+            if(selectedPiece.type == Type.QUEEN){
+                //((Bishop)selectedPiece).move(sRow, sCol);
+            } 
+            else {
+                //KING
+                //((Bishop)selectedPiece).move(sRow, sCol);
+            }
+        }
+        return(false);
+    }
+    /*
+    public void validMovementTrue(){
+        validMovement = true;
+    }
+    public void validMovementFalse(){
+        validMovement = false;
+    }
+    public boolean getValidMovement(){
+        return(validMovement);
+    }
+    */
     
 /*
     public void draw(Graphics2D g,int row,int column,int xdelta,int ydelta) {

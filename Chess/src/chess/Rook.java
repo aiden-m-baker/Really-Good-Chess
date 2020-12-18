@@ -20,8 +20,8 @@ public class Rook extends Piece {
     
     private Image image;
     
-    Rook (Player _player){
-        super(_player, Type.ROOK);
+    Rook (Player _player, int _row, int _column){
+        super(_player, Type.ROOK, _row, _column);
         player = _player;
         if(player == Player.getPlayer1()){
             image = Toolkit.getDefaultToolkit().getImage("./whiterook.png");

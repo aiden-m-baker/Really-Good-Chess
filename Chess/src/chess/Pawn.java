@@ -20,8 +20,8 @@ public class Pawn extends Piece {
     private Player player;
     private Image image;
     
-    Pawn (Player _player){
-        super(_player, Type.PAWN);
+    Pawn (Player _player, int _row, int _column){
+        super(_player, Type.PAWN, _row, _column);
         player = _player;
         if(player == Player.getPlayer1()){
             image = Toolkit.getDefaultToolkit().getImage("./whitepawn.png");

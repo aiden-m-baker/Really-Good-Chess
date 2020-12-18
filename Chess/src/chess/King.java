@@ -17,11 +17,11 @@ import java.awt.Toolkit;
 public class King extends Piece{
     
     private Player player;
-    
+    public static enum Position {CHECK, CHECKMATE, STALEMATE}
     private Image image;
     
-    King(Player _player){
-        super(_player, Type.KING);
+    King(Player _player, int _row, int _column){
+        super(_player, Type.KING, _row, _column);
         player = _player;
         if(player == Player.getPlayer1()){
             image = Toolkit.getDefaultToolkit().getImage("./whiteking.png");

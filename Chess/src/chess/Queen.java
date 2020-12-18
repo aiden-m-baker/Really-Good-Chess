@@ -20,8 +20,8 @@ public class Queen extends Piece {
     
     private Image image;
     
-    Queen (Player _player){
-        super(_player, Type.QUEEN);
+    Queen (Player _player, int _row, int _column){
+        super(_player, Type.QUEEN, _row, _column);
         player = _player;
         if(player == Player.getPlayer1()){
             image = Toolkit.getDefaultToolkit().getImage("./whitequeen.png");
