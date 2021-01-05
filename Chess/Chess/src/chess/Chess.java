@@ -1,6 +1,3 @@
-
-
-
 package chess;
 
 import java.io.*;
@@ -13,19 +10,23 @@ public class Chess extends JFrame implements Runnable {
     boolean animateFirstTime = true;
     Image image;
     Graphics2D g;
-
-    public static void main(String[] args) {
+    
+    public static void main(String[] args)
+    {
         Chess frame = new Chess();
         frame.setSize(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
-
-    public Chess() {
-        addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-
-                if (e.BUTTON1 == e.getButton() ) {
+    
+    public Chess()
+    {
+        addMouseListener(new MouseAdapter()
+        {
+            public void mousePressed(MouseEvent e)
+            {
+                if (e.BUTTON1 == e.getButton())
+                {
                     int x = e.getX() - Window.getX(0);
                     int y = e.getY() - Window.getY(0);
                     Board.SelectPiecePixel(x,y);
@@ -170,5 +171,4 @@ public class Chess extends JFrame implements Runnable {
         }
         relaxer = null;
     }
-
 }
