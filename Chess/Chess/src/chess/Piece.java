@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package chess;
 
 import java.awt.*;
@@ -47,52 +42,66 @@ public class Piece {
     
     
     public static boolean Move(Piece selectedPiece, int sRow, int sCol){
+        if(Board.ifOver())
+            return false ;
+        boolean temp = false ;
+        Piece replace = null ;
         Piece board[][] = Board.getBoard();
         if((board[sRow][sCol] == null) || (board[sRow][sCol].player != selectedPiece.player)){
             if(selectedPiece.type == Type.PAWN){
                 if(((Pawn)selectedPiece).move(sRow, sCol, selectedPiece)){
+                    replace = board[sRow][sCol] ;
                     selectedPiece.row = sRow;
                     selectedPiece.column = sCol;
-                    return(true);
+                    temp = true ;
                 }
             } 
             if(selectedPiece.type == Type.BISHOP){
                 if(((Bishop)selectedPiece).move(sRow, sCol, selectedPiece)){
+                    replace = board[sRow][sCol] ;
                     selectedPiece.row = sRow;
                     selectedPiece.column = sCol;
-                    return(true);
+                    temp = true ;
                 }
             } 
             if(selectedPiece.type == Type.ROOK){
                 if(((Rook)selectedPiece).move(sRow, sCol, selectedPiece)){
+                    replace = board[sRow][sCol] ;
                     selectedPiece.row = sRow;
                     selectedPiece.column = sCol;
-                    return(true);
+                    temp = true ;
                 }
             } 
             if(selectedPiece.type == Type.KNIGHT){
                 if(((Knight)selectedPiece).move(sRow, sCol)){
+                    replace = board[sRow][sCol] ;
                     selectedPiece.row = sRow;
                     selectedPiece.column = sCol;
-                    return(true);
+                    temp = true ;
                 }
             } 
             if(selectedPiece.type == Type.QUEEN){
                 if(((Queen)selectedPiece).move(sRow, sCol, selectedPiece)){
+                    replace = board[sRow][sCol] ;
                     selectedPiece.row = sRow;
                     selectedPiece.column = sCol;
-                    return(true);
+                    temp = true ;
                 }
             } 
             if(selectedPiece.type == Type.KING){
                 if(((King)selectedPiece).move(sRow, sCol, selectedPiece)){
-                    selectedPiece.row = sRow;
-                    selectedPiece.column = sCol;
-                    return(true);
+                    replace = board[sRow][sCol] ;
+                    selectedPiece.row = sRow ;
+                    selectedPiece.column = sCol ;
+                    temp = true ;
                 }
             }
         }
-        return(false);
+        if(replace == null)
+            return(temp) ;
+        if(replace.getType() == Type.KING)
+            Board.GameOver(Player.GetCurrentPlayer()) ;
+        return temp ;
     }
     /*
     public void validMovementTrue(){
