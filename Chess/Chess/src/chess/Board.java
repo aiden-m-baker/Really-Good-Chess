@@ -1,4 +1,3 @@
-
 package chess;
 
 import java.awt.*;
@@ -10,6 +9,14 @@ public class Board {
     private static Piece selectedPiece;
     private static int selectedPieceRow;
     private static int selectedPieceCol;
+    private static boolean gameOver = false ;
+    private static Player winner ;
+    
+    public static void GameOver(Player _player)
+    {
+        winner = _player ;
+        gameOver = true ;
+    }
     
     public static int getNumRows(){
         return(NUM_ROWS);
@@ -23,6 +30,8 @@ public class Board {
     
     public static void Reset() {
 //Clear the board.
+        winner = null ;
+        gameOver = false ;
         for (int zrow=0;zrow<NUM_ROWS;zrow++)
             for (int zcol=0;zcol<NUM_COLUMNS;zcol++)
                 board[zrow][zcol] = null;
@@ -293,12 +302,18 @@ public class Board {
                     else if(selectedPiece.getType() == Piece.Type.KING)
                         ((King)selectedPiece).draw(g, zrow, zcol,xdelta, ydelta);
                 }
-                
-                    
             }
-        }        
-        
+        }
+        if(gameOver)
+        {
+            if(winner == Player.getPlayer1())
+                g.drawString("PLAYER 1 WINS", 0, 0);
+            if(winner == Player.getPlayer2())
+                g.drawString("PLAYER 2 WINS", 0, 0);
+        }
     }
-    
-    
+    public static boolean ifOver()
+    {
+        return gameOver ;
+    }
 }
